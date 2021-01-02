@@ -20,56 +20,48 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mitocode.exception.ModeloNotFoundException;
-import com.mitocode.model.Menu;
-import com.mitocode.service.IMenuService;
+import com.mitocode.model.Rol;
+import com.mitocode.service.IRolService;
 
 @RestController
-@RequestMapping("/menus")
-public class MenuController {
+@RequestMapping("/roles")
+public class RolController {
 	
 	@Autowired
-	private IMenuService service;
+	private IRolService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Menu>> listar() throws Exception{
-		List<Menu> menus = new ArrayList<>();
-		menus = service.listar();
-		return new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
-	}
-	
-	@PostMapping("/usuario")
-	public ResponseEntity<List<Menu>> listar(@RequestBody String nombre) throws Exception{
-		List<Menu> menus = new ArrayList<>();
-		menus = service.listarMenuPorUsuario(nombre);
-		return new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
+	public ResponseEntity<List<Rol>> listar() throws Exception{
+		List<Rol> obj = new ArrayList<>();
+		obj = service.listar();
+		return new ResponseEntity<List<Rol>>(obj, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Menu> listarPorId(@PathVariable("id") Integer id) throws Exception{
-		Menu menu = service.listarPorId(id);
-		return new ResponseEntity<Menu>(menu, HttpStatus.OK);
+	public ResponseEntity<Rol> listarPorId(@PathVariable("id") Integer id) throws Exception{
+		Rol obj = service.listarPorId(id);
+		return new ResponseEntity<Rol>(obj, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> registrar(@Valid @RequestBody Menu menu) throws Exception{
-		Menu obj = service.registrar(menu);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdMenu()).toUri();
+	public ResponseEntity<Void> registrar(@Valid @RequestBody Rol rol) throws Exception{
+		Rol obj = service.registrar(rol);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdRol()).toUri();
 		return ResponseEntity.created(location).build();		
 	}
 	
 	@PutMapping
-	public ResponseEntity<Menu> modificar(@Valid @RequestBody Menu menu) throws Exception{
-		Menu obj = service.registrar(menu);		
-		return new ResponseEntity<Menu>(obj, HttpStatus.OK);		
+	public ResponseEntity<Rol> modificar(@Valid @RequestBody Rol rol) throws Exception{
+		Rol obj = service.registrar(rol);		
+		return new ResponseEntity<Rol>(obj, HttpStatus.OK);		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception {
-		Menu obj = service.listarPorId(id);
+		Rol obj = service.listarPorId(id);
 		if(obj==null) throw new ModeloNotFoundException("ID NO ENCONTRADO: "+id);
 		
 		service.eliminar(id);		
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-
 }

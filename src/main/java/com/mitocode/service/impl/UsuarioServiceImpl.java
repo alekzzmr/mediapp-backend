@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.User;
 
 import com.mitocode.model.Usuario;
@@ -18,6 +19,7 @@ import com.mitocode.repo.IUsuarioRepo;
 import com.mitocode.service.IUsuarioService;
 
 @Service
+@Transactional
 public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService{
 
 	@Autowired
@@ -53,6 +55,7 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService{
 		user.setUsername(pac.getUsername());
 		user.setPassword(bcrypt.encode(pac.getPassword()));
 		user.setEnabled(pac.isEnabled());
+		user.setRoles(pac.getRoles());
 		return repo.save(user);
 	}
 
@@ -61,6 +64,7 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService{
 		Usuario user = repo.findById(pac.getIdUsuario()).orElse(null);
 		user.setEnabled(pac.isEnabled());
 		user.setUsername(pac.getUsername());
+		user.setRoles(pac.getRoles());
 		return repo.save(user);
 	}
 
