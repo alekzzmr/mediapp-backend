@@ -46,8 +46,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
                 .antMatchers("/consultaexamenes/**" ).authenticated()
                 .antMatchers("/pacientes/**" ).authenticated()
                 .antMatchers("/signos/**" ).authenticated()
-                .antMatchers("/usuarios/**" ).authenticated();
-                
+                .antMatchers("/usuarios/**" ).authenticated()
+                .antMatchers("/roles/**" ).authenticated();       
     }    
 
 }
